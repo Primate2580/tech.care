@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/manrope';
+
+/* Design tokens from the XD export (variables.css) plus values sampled
+   from the design image. Use as: bg-navy, text-muted, rounded-card, text-card-title ... */
+@theme {
+  --font-sans: 'Manrope Variable', Manrope, sans-serif;
+
+  /* Brand + text */
+  --color-navy: #072635;
+  --color-muted: #707070;
+  --color-teal: #01f0d0;
+  --color-teal-soft: #d8fcf7; /* active patient row */
+  --color-purple: #705aaa;
+  --color-green: #0bd984;
+  --color-orange: #ff6200;
+
+  /* Surfaces */
+  --color-page: #f6f7f8; /* artboard background (XD: #F6F7F8) */
+  --color-line: #ededed;
+  --color-lilac-border: #cbc8d4;
+  --color-divider: #e0ddea;
+
+  /* Blood pressure panel + chart */
+  --color-bp-panel: #f4f0fe;
+  --color-systolic: #e66fd2;
+  --color-diastolic: #8c6fe6;
+
+  /* Vital sign cards */
+  --color-respiratory: #e0f3fa;
+  --color-temperature: #ffe6e9;
+  --color-heart: #ffe6f1;
+
+  /* Radii */
+  --radius-card: 16px;
+  --radius-nav: 70px;
+
+  /* Type scale (XD character styles) */
+  --text-card-title: 24px; /* Card Title 24pt, ExtraBold */
+  --text-card-title--line-height: 33px;
+  --text-card-title--font-weight: 800;
+  --text-inner-title: 18px; /* Inner Card Title 18pt, Bold, title case */
+  --text-inner-title--line-height: 24px;
+  --text-inner-title--font-weight: 700;
+  --text-body: 14px; /* Body Regular / Emphasized / Secondary 14pt */
+  --text-body--line-height: 19px;
+}
+
+/* 4px navy scrollbar used by the patient list, diagnostic list and lab results. */
+@utility scroll-thin {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-navy);
+    border-radius: 9999px;
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-navy) transparent;
+  }
+}
+
+@layer base {
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-purple);
+    outline-offset: 2px;
+  }
+}
+
+/* Small reusable pieces, so repeated markup stays readable. */
+@layer components {
+  .card {
+    @apply rounded-card bg-white;
+  }
+  /* Diagnostic list columns: fluid on small screens, the design's fixed widths on desktop. */
+  .diagnostic-grid {
+    @apply grid grid-cols-[1fr_1.4fr_0.8fr] gap-x-3 xl:grid-cols-[248px_364px_1fr] xl:gap-x-0;
+  }
+  .patient-row {
+    @apply flex h-20 shrink-0 items-center gap-3 pl-5 pr-4 has-[[aria-current=page]]:bg-teal-soft;
+  }
+}
